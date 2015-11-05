@@ -27,6 +27,10 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
 
             $scope.isTaskCreator = Task.isCreator;
             $scope.isOpen = Task.isOpen;
+
+            $scope.isAssignee = Task.isAssignee;
+
+            $scope.isCompleted = Task.isCompleted;
         }
 
         $scope.comments = Comment.comments(task.$id);
@@ -80,6 +84,18 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
 
             $scope.alreadyOffered = false;
             $scope.block = false;
+        });
+    };
+
+    $scope.acceptOffer = function(offerId, runnerId) {
+        Offer.acceptOffer($scope.selectedTask.$id, offerId, runnerId).then(function() {
+            toaster.pop('success', 'Offer is accepted.');
+        });
+    };
+
+    $scope.completeTask = function(taskId) {
+        Task.completeTask(taskId).then(function() {
+            toaster.pop('success', 'Congratulations! You have completed this task.');
         });
     };
 
